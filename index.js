@@ -14,5 +14,6 @@ app.get('/', (req,res)=>{
 })
 
 app.use('/api/headers', require('./routes/todoHeadersRoute'))
+app.use('/api/todos', require('./routes/todoRoute'))
 
 app.listen(port,()=> console.log("Server has been initaited"))
