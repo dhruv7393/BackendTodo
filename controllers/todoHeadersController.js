@@ -53,16 +53,10 @@ const deleteHeadersById = async(req, res) =>{
     const todosList = await ToDoModel.find()
     let todoWithId = todosList.filter(todo => todo.headerId == id && !todo.done)
     if(!todoWithId.length){
-        let todoToBeDeleted = todosList.filter(todo => todo.headerId == id && todo.id)
-        for (todoId in todoToBeDeleted) {
-            const todo = await ToDoModel.findById(todoId)
-            await todo.remove()
-        }
-
-        const todoHeader = await ToDoHeadersModel.findById(id)
-        await todoHeader.remove()
+        let todoToBeDeleted = todosList.filter(todo => todo.headerId == id)
+        todoToBeDeleted.forEach(async(todoId) => await ToDoModel.findByIdAndDelete(todoId._id))
+        const todoHeader = await ToDoHeadersModel.findByIdAndDelete(id)
         res.status(200).send(`${id} removed`)
-
     }else{
         res.status(400).send("Header has todos associated")
     }

@@ -96,12 +96,10 @@ const updateTodo = async(req, res) => {
 
 const deleteTodo = async(req, res) => {
     const {id} = req.params
-    const todo = await ToDoModel.findById(id)
-    console.log(todo)
+    const todo = await ToDoModel.findByIdAndDelete(id)
     if(!todo){
         res.status(400).send("Todo not found")
     }
-    await todo.remove()
     res.status(200).send(`${id} removed`)
 }
 
