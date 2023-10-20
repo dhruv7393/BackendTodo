@@ -10,6 +10,10 @@ const ToDosSchema = new mongoose.Schema({
         type:String,
         required: [true, 'Please add a text value']
     },
+    notes:{
+        type:String,
+        required: [true, 'Please add a text value']
+    },
     imp: {
         type:Number,
         required: [true, 'Please check if imp is not added']

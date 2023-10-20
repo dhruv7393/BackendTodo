@@ -17,7 +17,7 @@ const getToDos = async(req, res) => {
 
 const postToDo = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, imp, headerId, done=false } = req.body
+    const {title, imp, headerId, done=false, notes= '' } = req.body
     let {addedOn=''} = req.body
     if (!title) {
         res.status(400).send('Please add a text field')
@@ -43,7 +43,7 @@ const postToDo = async(req, res) => {
     if(headerId == todoHeadersList["_id"]){
         const result = await ToDoModel.create({
             _id: new mongoose.Types.ObjectId(),
-            headerId, title, imp, addedOn, done
+            headerId, title, notes, imp, addedOn, done
         })
         res.status(200).json(result)
     }else{
@@ -60,7 +60,7 @@ const getToDosById = async(req, res) => {
 
 const updateTodo = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, imp, headerId,done=false } = req.body
+    const {title, imp, headerId,done=false, notes='' } = req.body
     let {addedOn=''} = req.body
     const{id} = req.params
     if (!title) {
@@ -86,7 +86,7 @@ const updateTodo = async(req, res) => {
     const todoHeadersList = await ToDoHeadersModel.findById(headerId)
     if(headerId == todoHeadersList["_id"]){
         const result = await ToDoModel.findByIdAndUpdate(id, {
-            headerId, title, imp, addedOn, done
+            headerId, title, notes, imp, addedOn, done
         })
         res.status(200).json(result)
     }else{
