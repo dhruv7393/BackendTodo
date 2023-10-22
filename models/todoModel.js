@@ -22,6 +22,14 @@ const ToDosSchema = new mongoose.Schema({
         type:String,
         required: [true, 'Please add addedOn']
     },
+    completeOn:{
+        type:String,
+        required: [true, 'Please add addedOn']
+    },
+    completeBy:{
+        type:String,
+        required: [true, 'Please add addedOn']
+    },
     done:{
         type:Boolean,
         required: [true, 'Please add wether its done or not']
