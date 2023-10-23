@@ -22,7 +22,7 @@ const ToDosSchema = new mongoose.Schema({
         type:String,
         required: [true, 'Please add addedOn']
     },
-    completeOn:{
+    completedOn:{
         type:String,
         required: [true, 'Please add addedOn']
     },
