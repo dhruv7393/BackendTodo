@@ -12,7 +12,7 @@ const ToDosSchema = new mongoose.Schema({
     },
     notes:{
         type:String,
-        required: [true, 'Please add a text value']
+        required: [false, 'Please add a text value']
     },
     imp: {
         type:Number,
@@ -24,11 +24,11 @@ const ToDosSchema = new mongoose.Schema({
     },
     completedOn:{
         type:String,
-        required: [true, 'Please add addedOn']
+        required: [false, 'Please add completedOn']
     },
     completeBy:{
         type:String,
-        required: [true, 'Please add addedOn']
+        required: [false, 'Please add completeBy']
     },
     done:{
         type:Boolean,
