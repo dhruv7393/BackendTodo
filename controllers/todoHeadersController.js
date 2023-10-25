@@ -17,7 +17,7 @@ const getHeaders = async(req, res) => {
 
 const postHeaders = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, pinned} = req.body
+    let {title, pinned} = req.body
     if (!title) {
         res.status(400).send('Please add a text field')
     }

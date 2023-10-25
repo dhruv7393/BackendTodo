@@ -17,8 +17,7 @@ const getToDos = async(req, res) => {
 
 const postToDo = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, imp, headerId, done=false, notes= '', completedOn='', completeBy='' } = req.body
-    let {addedOn=''} = req.body
+    let {title, imp, headerId, done=false, notes= '', completedOn='', completeBy='', addedOn='' } = req.body
     if (!title) {
         res.status(400).send('Please add a text field')
     }
@@ -56,8 +55,7 @@ const getToDosById = async(req, res) => {
 
 const updateTodo = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, imp, headerId,done=false, notes='', completedOn='', completeBy='' } = req.body
-    let {addedOn=''} = req.body
+    let {title, imp, headerId,done=false, notes='', completedOn='', completeBy='', addedOn='' } = req.body
     const{id} = req.params
     if (!title) {
         res.status(400).send('Please add a text field')
@@ -75,7 +73,7 @@ const updateTodo = async(req, res) => {
         addedOn = new Date().toLocaleDateString();
     }
 
-    if(done){
+    if(done && !completedOn){
         completedOn = new Date().toLocaleDateString();
     }
 

@@ -11,7 +11,7 @@ const getDailyTask = async(req, res) => {
 
 const updateDailyTask = async(req, res) => {
     // res.status(200).json({message: 'Headers from router'})
-    const {title, done=false} = req.body
+    let {title, done=false} = req.body
     const{id} = req.params
     if (!title) {
         res.status(400).send('Please add a text field')
