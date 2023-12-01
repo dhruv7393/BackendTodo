@@ -1,106 +1,80 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-/*
-    @desc Get all todo 
-    @route GET /api/todos
-    @access Private
-*/
+const ToDoModel = require("../models/todoModel");
+const ToDoHeadersModel = require("../models/todoHeaderModel");
+const sendCompleteLog = require("../commonComponents/sendCompleteLog");
+const sendCompleteLogById = require("../commonComponents/sendCompleteLogByID");
+const deleteById = require("../commonComponents/deleteById");
+const checkAndPostMissingField = require("../commonComponents/checkAndPostMissingField");
+const addLog = require("../commonComponents/addLog");
+const updateLog = require("../commonComponents/updateLog");
 
-const ToDoModel = require('../models/todoModel')
-const ToDoHeadersModel = require('../models/todoHeaderModel')
+const getToDos = async (req, res) => {
+  sendCompleteLog(req, res, ToDoModel);
+};
 
-const getToDos = async(req, res) => {
-    // res.status(200).json({message: 'Todos from router'})
-    const todosList = await ToDoModel.find()
-    res.status(200).json(todosList)
-}
+const getToDosById = async (req, res) => {
+  sendCompleteLogById(req, res, ToDoModel);
+};
 
-const postToDo = async(req, res) => {
-    // res.status(200).json({message: 'Headers from router'})
-    let {title, imp, headerId, done=false, notes= '', completedOn='', completeBy='', addedOn='' } = req.body
-    if (!title) {
-        res.status(400).send('Please add a text field')
-    }
+const deleteTodo = async (req, res) => {
+  deleteById(req, res, ToDoModel);
+};
 
-    if (!headerId) {
-        res.status(400).send('Please add a header to be associated with')
-    }
+const postToDo = async (req, res) => {
+  let defaultValue = {
+    done: false,
+    notes: "",
+    completedOn: "",
+    completeBy: "",
+    addedOn: "",
+  };
+  let { headerId } = req.body;
 
-    if (!imp) {
-        res.status(400).send('Please add wether header is pinned or not')
-    }
+  checkAndPostMissingField(req, res, ["title", "headerId", "imp", "addedOn"]);
 
-    if(!addedOn){
-        addedOn = new Date().toLocaleDateString();
-    }
+  const todoHeadersList = await ToDoHeadersModel.findById(headerId);
+  if (headerId == todoHeadersList["_id"]) {
+    addLog(req, res, ToDoModel, defaultValue);
+  } else {
+    res.status(400).send("Please add header to associate todo");
+  }
+};
 
-    const todoHeadersList = await ToDoHeadersModel.findById(headerId)
-    if(headerId == todoHeadersList["_id"]){
-        const result = await ToDoModel.create({
-            _id: new mongoose.Types.ObjectId(),
-            headerId, title, notes, imp, addedOn, done, completedOn, completeBy
-        })
-        res.status(200).json(result)
-    }else{
-        res.status(400).send("Please add header to associate todo")
-    }
-}
+const updateTodo = async (req, res) => {
+  checkAndPostMissingField(
+    req,
+    res,
+    ["title", "headerId", "imp", "addedOn"]["id"]
+  );
 
-const getToDosById = async(req, res) => {
-    // res.status(200).json({message: 'Todos from router'})
-    const {id} = req.params
-    const todoHeadersList = await ToDoModel.findById(id)
-    res.status(200).json(todoHeadersList)
-}
+  let defaultValue = {
+    done: false,
+    notes: "",
+    completedOn: "",
+    completeBy: "",
+    addedOn: "",
+  };
 
-const updateTodo = async(req, res) => {
-    // res.status(200).json({message: 'Headers from router'})
-    let {title, imp, headerId,done=false, notes='', completedOn='', completeBy='', addedOn='' } = req.body
-    const{id} = req.params
-    if (!title) {
-        res.status(400).send('Please add a text field')
-    }
+  let { headerId, done = false, completedOn = "" } = req.body;
+  const { id } = req.params;
 
-    if (!headerId) {
-        res.status(400).send('Please add a header to be associated with')
-    }
+  if (done && !completedOn) {
+    completedOn = new Date().toLocaleDateString();
+  }
 
-    if (!imp) {
-        res.status(400).send('Please add wether header is pinned or not')
-    }
-
-    if(!addedOn){
-        addedOn = new Date().toLocaleDateString();
-    }
-
-    if(done && !completedOn){
-        completedOn = new Date().toLocaleDateString();
-    }
-
-    const todoHeadersList = await ToDoHeadersModel.findById(headerId)
-    if(headerId == todoHeadersList["_id"]){
-        const result = await ToDoModel.findByIdAndUpdate(id, {
-            headerId, title, notes, imp, addedOn, done, completedOn, completeBy
-        })
-        res.status(200).json(result)
-    }else{
-        res.status(400).send("Please add header to associate todo")
-    }
-}
-
-const deleteTodo = async(req, res) => {
-    const {id} = req.params
-    const todo = await ToDoModel.findByIdAndDelete(id)
-    if(!todo){
-        res.status(400).send("Todo not found")
-    }
-    res.status(200).send(`${id} removed`)
-}
+  const todoHeadersList = await ToDoHeadersModel.findById(headerId);
+  if (headerId == todoHeadersList["_id"]) {
+    updateLog(req, res, ToDoModel, defaultValue);
+  } else {
+    res.status(400).send("Please add header to associate todo");
+  }
+};
 
 module.exports = {
-    getToDos,
-    postToDo,
-    getToDosById,
-    updateTodo,
-    deleteTodo
-}
+  getToDos,
+  postToDo,
+  getToDosById,
+  updateTodo,
+  deleteTodo,
+};
