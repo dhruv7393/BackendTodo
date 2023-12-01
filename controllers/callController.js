@@ -4,6 +4,7 @@ const callModel = require("../models/callModel");
 const deleteById = require("../commonComponents/deleteById");
 const checkAndPostMissingField = require("../commonComponents/checkAndPostMissingField");
 const updateLog = require("../commonComponents/updateLog");
+const addLog = require("../commonComponents/addLog");
 
 const getCallHistory = async (req, res) => {
   sendCompleteLog(req, res, callModel);

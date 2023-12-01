@@ -45,7 +45,8 @@ const updateTodo = async (req, res) => {
   checkAndPostMissingField(
     req,
     res,
-    ["title", "headerId", "imp", "addedOn"]["id"]
+    ["title", "headerId", "imp", "addedOn"],
+    ["id"]
   );
 
   let defaultValue = {
