@@ -18,4 +18,4 @@ const sendCompleteLogById = async (req, res, model) => {
   }
 };
 
-export default sendCompleteLogById;
+module.exports = sendCompleteLogById;

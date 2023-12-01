@@ -23,4 +23,4 @@ const deleteById = async (req, res, model) => {
   }
 };
 
-export default deleteById;
+module.exports = deleteById;

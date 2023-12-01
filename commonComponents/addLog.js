@@ -19,4 +19,4 @@ const addLog = async (req, res, model, defaultValue) => {
   }
 };
 
-export default addLog;
+module.exports = addLog;

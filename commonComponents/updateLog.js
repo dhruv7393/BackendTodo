@@ -25,4 +25,4 @@ const updateLog = async (req, res, model, defaultValue) => {
   }
 };
 
-export default updateLog;
+module.exports = updateLog;

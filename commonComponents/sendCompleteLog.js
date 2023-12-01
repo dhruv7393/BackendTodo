@@ -15,4 +15,4 @@ const sendCompleteLog = async (req, res, model) => {
   }
 };
 
-export default sendCompleteLog;
+module.exports = sendCompleteLog;
