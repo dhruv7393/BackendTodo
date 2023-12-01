@@ -15,7 +15,7 @@ const checkAndPostMissingField = (
   let missingFieldsInBody = [];
   arrayOfFieldsInBody.length &&
     arrayOfFieldsInBody.forEach((field) => {
-      if (!Object.keys(res.body).includes(field)) {
+      if (!Object.keys(req.body).includes(field)) {
         missingFieldsInBody.push(field);
       }
     });
